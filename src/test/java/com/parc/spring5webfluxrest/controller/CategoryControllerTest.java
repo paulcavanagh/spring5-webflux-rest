@@ -78,7 +78,7 @@ public class CategoryControllerTest {
         Mono<Category> updatedCategoryMono = Mono.just(Category.builder().description("Updated category").build());
 
         webTestClient.put()
-                .uri("/api/v1/categories/asas")
+                .uri(API_V_1_CATEGORIES + "asas")
                 .body(updatedCategoryMono, Category.class)
                 .exchange()
                 .expectStatus()
