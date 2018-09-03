@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 @RestController
 public class CategoryController {
 
-    public static final String API_V_1_CATEGORIES = "/api/v1/categories";
+    public static final String API_V_1_CATEGORIES = "/api/v1/categories/";
     private final CategoryRepository categoryRepository;
 
     public CategoryController(CategoryRepository categoryRepository) {
@@ -30,9 +30,15 @@ public class CategoryController {
 
     @PostMapping(API_V_1_CATEGORIES)
     @ResponseStatus(HttpStatus.CREATED)
-    Mono<Void> createNewCategory( @RequestBody Publisher<Category> categoryStream){
+    Mono<Void> createNewCategory(@RequestBody Publisher<Category> categoryStream){
         return categoryRepository.saveAll(categoryStream).then();
     }
 
+
+    @PutMapping(API_V_1_CATEGORIES +"{id}")
+    Mono<Category> updateCategory(@PathVariable String id, @RequestBody Category category){
+        category.setId(id);
+        return categoryRepository.save(category);
+    }
 
 }
